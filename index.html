@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ee">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description" content="巢屋 Nestly —— 会关心你的智能之家。灯光、温度、门锁与你的每一次呼吸，它都替你记着。">
+<title>巢屋 Nestly — 家会替你记着</title>
+<style>
+  :root{
+    --bg:#f7f4ee;
+    --ink:#191713;
+    --dim:#6b655c;
+    --line:#e2dbd0;
+    --accent:#3c5a46;
+    --card:#fffdf9;
+    --shadow:0 1px 2px rgba(25,23,19,.06),0 12px 32px rgba(25,23,19,.05);
+    --p:0;
+  }
+  body.s2{--bg:#f3efe6;--dim:#5d574e;}
+  body.s3{
+    --bg:#12100f;--ink:#ded7ca;--dim:#8d857a;--line:#2a2622;
+    --accent:#8f9d7e;--card:#1a1715;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 18px 48px rgba(0,0,0,.45);
+  }
+  body.s4{
+    --bg:#0a0909;--ink:#cfc6b6;--dim:#6d655b;--line:#231f1c;
+    --accent:#a3402f;--card:#141110;
+  }
+  body.s5{--bg:#050404;--ink:#b9b0a2;--dim:#5b5349;--line:#1a1715;--accent:#8d2a1d;--card:#0b0a0a;}
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    transition:background 1.4s ease,color 1.4s ease;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 28px}
+  a{color:inherit}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:40;
+    backdrop-filter:blur(12px);
+    background:color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom:1px solid var(--line);
+    transition:background 1.4s,border-color 1.4s;
+  }
+  nav .wrap{display:flex;align-items:center;gap:28px;height:64px}
+  .logo{font-weight:700;letter-spacing:.02em;font-size:18px;display:flex;align-items:center;gap:9px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);transition:background 1.4s}
+  nav .links{display:flex;gap:22px;margin-left:auto;font-size:14px;color:var(--dim)}
+  nav .links a{text-decoration:none;transition:color .5s}
+  nav .cta{
+    font-size:14px;padding:8px 16px;border-radius:999px;
+    background:var(--accent);color:#fff;text-decoration:none;
+    transition:background 1.4s,transform .3s;
+  }
+  nav .cta:hover{transform:translateY(-1px)}
+  .navwarn{display:none;font-size:12.5px;color:var(--accent);margin-left:6px}
+  body.s3 .navwarn,body.s4 .navwarn,body.s5 .navwarn{display:inline}
+
+  /* ---------- hero ---------- */
+  header{padding:84px 0 64px;position:relative}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;font-size:12.5px;
+    border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--dim);
+    background:var(--card);transition:all 1.4s;
+  }
+  h1{font-size:clamp(38px,6vw,68px);line-height:1.06;letter-spacing:-.02em;margin:26px 0 18px;font-weight:700}
+  h1 .soft{color:var(--dim);font-weight:400}
+  .lede{font-size:clamp(16px,2.1vw,20px);color:var(--dim);max-width:640px;line-height:1.7;margin:0 0 30px}
+  .btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .btn{
+    display:inline-block;padding:13px 22px;border-radius:999px;text-decoration:none;
+    background:var(--accent);color:#fff;font-size:15px;transition:all .4s;
+  }
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .fine{font-size:12.5px;color:var(--dim);margin-top:16px}
+
+  /* panel */
+  .panel{
+    margin-top:46px;background:var(--card);border:1px solid var(--line);border-radius:22px;
+    padding:26px 28px;box-shadow:var(--shadow);transition:all 1.4s;
+    max-width:720px;
+  }
+  .panel .greet{font-size:15px;color:var(--dim);margin-bottom:18px}
+  .rows{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .row .k{font-size:12.5px;color:var(--dim);letter-spacing:.02em}
+  .row .v{font-size:26px;font-weight:600;margin-top:6px;font-variant-numeric:tabular-nums}
+  .row .v small{font-size:13px;font-weight:400;color:var(--dim);margin-left:4px}
+  .extra{display:none;font-size:13px;color:var(--accent);margin-top:16px;border-top:1px dashed var(--line);padding-top:14px}
+  body.s2 .extra,body.s3 .extra,body.s4 .extra,body.s5 .extra{display:block}
+
+  /* trusted */
+  .trust{padding:34px 0 10px;border-top:1px solid var(--line);margin-top:70px}
+  .trust p{font-size:12.5px;color:var(--dim);margin:0 0 18px}
+  .logos{display:flex;gap:38px;flex-wrap:wrap;font-size:15px;color:var(--dim);opacity:.85;letter-spacing:.04em}
+  body.s3 .logos span:nth-child(4){text-decoration:line-through}
+
+  /* ---------- sections ---------- */
+  section{padding:96px 0;border-top:1px solid var(--line);transition:border-color 1.4s}
+  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
+  h2{font-size:clamp(26px,3.6vw,40px);line-height:1.2;letter-spacing:-.015em;margin:0 0 16px;font-weight:650}
+  .sub{color:var(--dim);font-size:16.5px;line-height:1.75;max-width:600px;margin:0 0 44px}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;
+    transition:all 1.4s;
+  }
+  .card .ic{font-size:22px;margin-bottom:14px;display:block}
+  .card h3{margin:0 0 8px;font-size:17px;font-weight:600}
+  .card p{margin:0;color:var(--dim);font-size:14.5px;line-height:1.7}
+
+  /* quotes */
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;transition:all 1.4s}
+  .q p{margin:0 0 14px;font-size:14.5px;line-height:1.7}
+  .q .who{font-size:12.5px;color:var(--dim)}
+  .q .name{filter:blur(0);transition:filter 1s}
+  body.s3 .q .name{filter:blur(4px)}
+  body.s4 .q .name{filter:blur(6px);opacity:.5}
+
+  /* pricing */
+  .prices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .price{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;transition:all 1.4s}
+  .price .n{font-size:13px;color:var(--dim);letter-spacing:.06em}
+  .price .amt{font-size:34px;font-weight:650;margin:10px 0 4px}
+  .price .per{font-size:12.5px;color:var(--dim)}
+  .price ul{list-style:none;padding:0;margin:18px 0 0;font-size:14px;color:var(--dim);line-height:2}
+  body.s4 .price.free,body.s5 .price.free{opacity:.35}
+  body.s4 .price.mid{opacity:.55}
+  .price .note{display:none;font-size:12.5px;color:var(--accent);margin-top:14px}
+  body.s3 .price .note{display:block}
+
+  /* live bar */
+  .livebar{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    display:none;align-items:center;gap:14px;
+    padding:10px 20px;font-size:12.5px;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    border-top:1px solid var(--line);
+    backdrop-filter:blur(10px);color:var(--dim);
+    transition:all 1.4s;
+  }
+  body.s2 .livebar,body.s3 .livebar,body.s4 .livebar,body.s5 .livebar{display:flex}
+  .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:p 2.2s infinite}
+  @keyframes p{0%,100%{opacity:.25}50%{opacity:1}}
+  .livebar .sp{margin-left:auto}
+
+  /* finale */
+  .finale{position:relative;height:240vh;padding:0;border-top:1px solid var(--line)}
+  .stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 28px;overflow:hidden}
+  .stage .big{font-size:clamp(30px,7vw,72px);font-weight:700;letter-spacing:-.01em;line-height:1.25;opacity:0;transition:opacity 1.6s}
+  .stage .small{margin-top:26px;font-size:15px;color:var(--dim);opacity:0;transition:opacity 1.6s;min-height:1.6em}
+  .finale.on .big{opacity:1}
+  .finale.on .small{opacity:1}
+
+  /* 最后那段的东西 */
+  .haunt{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 4s ease}
+  .haunt .shape{
+    position:absolute;left:50%;bottom:-14%;
+    width:min(58vh,430px);height:92%;
+    transform:translateX(-50%);
+    background:radial-gradient(ellipse at 50% 30%,rgba(0,0,0,.96) 0%,rgba(0,0,0,.9) 34%,rgba(0,0,0,.55) 52%,rgba(0,0,0,0) 68%);
+    filter:blur(14px);
+    border-radius:46% 46% 0 0;
+  }
+  .haunt .eye{
+    position:absolute;top:31%;width:6px;height:6px;border-radius:50%;
+    background:#e8e2d4;opacity:0;
+    box-shadow:0 0 12px rgba(255,250,235,.55);
+    transition:opacity 3s;
+  }
+  .haunt .eye.l{left:calc(50% - 46px)}
+  .haunt .eye.r{left:calc(50% + 40px)}
+  body.endgame .haunt{opacity:1}
+  body.endgame .haunt .eye{opacity:.55;animation:blinkeye 7s infinite}
+  @keyframes blinkeye{0%,94%,100%{opacity:.55}96%{opacity:0}}
+
+  .glitch{
+    position:fixed;inset:0;pointer-events:none;z-index:70;
+    background:#000;opacity:0;
+  }
+  body.endgame .glitch{animation:flick 7s infinite}
+  @keyframes flick{
+    0%,88%,100%{opacity:0}
+    89%{opacity:.9}
+    90%{opacity:0}
+    92%{opacity:.55}
+    93%{opacity:0}
+    97%{opacity:.25}
+    97.6%{opacity:0}
+  }
+  body.endgame .stage{animation:tr .14s infinite}
+  body.endgame .big{
+    text-shadow:2px 0 rgba(178,38,26,.5),-2px 0 rgba(42,120,150,.42);
+  }
+  body.endgame .small{color:#9a8f80}
+  body.endgame .caret{background:#b2261a}
+  .caret{display:inline-block;width:.55em;height:1.05em;background:var(--ink);vertical-align:-.14em;animation:blink 1s steps(1) infinite;opacity:.7}
+  @keyframes blink{50%{opacity:0}}
+
+  .tremor{animation:tr .18s infinite}
+  @keyframes tr{
+    0%{transform:translate(0,0)}
+    25%{transform:translate(.6px,-.5px)}
+    50%{transform:translate(-.5px,.4px)}
+    75%{transform:translate(.3px,.6px)}
+    100%{transform:translate(0,0)}
+  }
+  .vig{position:fixed;inset:0;pointer-events:none;z-index:45;opacity:0;transition:opacity 2s;
+    background:radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.72) 100%)}
+  body.s4 .vig{opacity:.75}
+  body.s5 .vig{opacity:.95}
+
+  .snd{
+    position:fixed;left:18px;bottom:18px;z-index:60;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 15px;border-radius:999px;cursor:pointer;
+    font-size:12.5px;color:var(--dim);
+    background:color-mix(in srgb, var(--bg) 86%, transparent);
+    border:1px solid var(--line);backdrop-filter:blur(10px);
+    transition:all .5s;user-select:none;
+  }
+  .snd:hover{color:var(--ink)}
+  .snd.on{color:var(--accent);border-color:var(--accent)}
+  .eq{display:inline-flex;align-items:flex-end;gap:2px;height:11px}
+  .eq i{display:block;width:2px;background:currentColor;height:3px;opacity:.6}
+  .snd.on .eq i{animation:eq 1.1s ease-in-out infinite}
+  .snd.on .eq i:nth-child(2){animation-delay:.18s}
+  .snd.on .eq i:nth-child(3){animation-delay:.36s}
+  @keyframes eq{0%,100%{height:3px}50%{height:11px}}
+
+  .killwrap{margin-top:26px;position:relative;height:58px}
+  .kill{
+    position:absolute;left:0;top:0;padding:12px 22px;border-radius:999px;
+    border:1px solid var(--line);background:var(--card);color:var(--dim);
+    cursor:pointer;font-size:14px;
+    transition:transform .38s cubic-bezier(.2,.8,.3,1),color .4s,border-color .4s;
+  }
+  .kill:hover{color:var(--accent)}
+  .killhint{font-size:12.5px;color:var(--dim);margin-top:4px;min-height:1.4em}
+  #door{cursor:pointer}
+
+  /* 记录 */
+  .loglist{list-style:none;padding:0;margin:0 0 22px;border-top:1px solid var(--line)}
+  .loglist li{
+    display:flex;gap:16px;padding:13px 2px;border-bottom:1px solid var(--line);
+    font-size:14.5px;color:var(--dim);transition:color 1.2s;
+    animation:fin .7s ease both;
+  }
+  .loglist li .t{color:var(--ink);opacity:.55;font-variant-numeric:tabular-nums;min-width:46px}
+  @keyframes fin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .more{
+    padding:11px 20px;border-radius:999px;border:1px solid var(--line);
+    background:transparent;color:var(--dim);font-size:13.5px;cursor:pointer;
+    transition:all .4s;
+  }
+  .more:hover{color:var(--accent);border-color:var(--accent)}
+  .more:disabled{cursor:default;opacity:.6}
+
+  /* 团队 */
+  .people3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .p3{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;transition:all 1.4s}
+  .face{
+    width:46px;height:46px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,#cfc6b6,#7c7468 70%,#3a352f);
+    margin-bottom:16px;filter:blur(.6px);
+    transition:all 1.4s;
+  }
+  body.s3 .face{filter:blur(3px)}
+  body.s4 .face{filter:blur(6px);background:radial-gradient(circle at 50% 60%,#5a4a44,#1a1413)}
+  .p3 .nm{font-size:14.5px;margin-bottom:6px}
+  .p3 .rl{font-size:12.5px;color:var(--dim);line-height:1.6}
+
+  /* FAQ */
+  .faq{display:flex;flex-direction:column;gap:10px;max-width:760px}
+  .faq details{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:16px 20px;transition:all 1.4s;
+  }
+  .faq summary{
+    cursor:pointer;font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:14px;
+  }
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--dim)}
+  .faq details[open] summary::after{content:"−"}
+  .faq details p{margin:14px 0 0;font-size:14px;color:var(--dim);line-height:1.8}
+  body.s4 .faq details p{color:var(--ink);opacity:.85}
+
+  /* 更新日志 */
+  .cl{list-style:none;padding:0;margin:0;max-width:760px}
+  .cl li{
+    padding:12px 0;border-bottom:1px solid var(--line);
+    font-size:14px;color:var(--dim);display:flex;gap:14px;transition:color 1.2s;
+  }
+  .cl li span{
+    flex:0 0 74px;font-size:11.5px;letter-spacing:.06em;color:var(--accent);
+    opacity:.8;padding-top:2px;
+  }
+  body.s4 .cl li:last-child{color:var(--ink)}
+
+  /* 彩蛋 */
+  .egg{
+    position:fixed;left:50%;bottom:88px;transform:translateX(-50%) translateY(8px);
+    z-index:65;pointer-events:none;
+    font-size:14px;letter-spacing:.04em;color:var(--ink);
+    background:color-mix(in srgb, var(--bg) 78%, transparent);
+    border:1px solid var(--line);border-radius:999px;padding:9px 18px;
+    opacity:0;transition:opacity .9s ease,transform .9s ease;
+    backdrop-filter:blur(8px);white-space:nowrap;max-width:86vw;overflow:hidden;
+  }
+  .egg.show{opacity:.92;transform:translateX(-50%) translateY(0)}
+  .egg.dark{color:#ddd4c5;background:rgba(8,7,7,.72)}
+
+  footer{padding:44px 0 90px;border-top:1px solid var(--line);font-size:12.5px;color:var(--dim)}
+  footer .cols{display:flex;gap:60px;flex-wrap:wrap}
+  .mark{opacity:.6}
+  body.s5 footer{opacity:.25}
+
+  @media (max-width:760px){
+    .rows{grid-template-columns:1fr 1fr}
+    .grid,.quotes,.prices{grid-template-columns:1fr}
+    nav .links{display:none}
+  }
+
+  /* ---------- 手机 ---------- */
+  @media (max-width:560px){
+    html,body{overflow-x:hidden}
+    *{-webkit-tap-highlight-color:transparent}
+    .wrap{padding:0 18px}
+
+    nav .wrap{height:56px;gap:12px}
+    .logo{font-size:16px}
+    nav .cta{font-size:13px;padding:8px 13px}
+
+    header{padding:52px 0 40px}
+    .badge{font-size:11.5px;padding:5px 10px}
+    h1{font-size:34px;line-height:1.18;margin:18px 0 14px}
+    .lede{font-size:15px;line-height:1.75;margin-bottom:22px}
+    .btn{padding:12px 18px;font-size:14.5px;width:100%;text-align:center}
+    .btn.ghost{margin-top:2px}
+    .btns{gap:9px}
+
+    .panel{margin-top:30px;padding:20px 18px;border-radius:18px}
+    .rows{grid-template-columns:1fr 1fr;gap:14px}
+    .row .v{font-size:21px}
+    .extra{font-size:12px;line-height:1.7}
+
+    .trust{margin-top:44px;padding-top:26px}
+    .logos{gap:18px;font-size:13px}
+
+    section{padding:56px 0}
+    h2{font-size:25px}
+    .sub{font-size:14.5px;line-height:1.8;margin-bottom:26px}
+    .card{padding:20px;border-radius:15px}
+    .card p{font-size:13.5px}
+    .q{padding:18px}
+    .price{padding:20px}
+    .price .amt{font-size:28px}
+
+    .loglist li{font-size:13.5px;gap:12px;padding:11px 0}
+    .more{width:100%;padding:13px}
+    .people3{grid-template-columns:1fr}
+    .p3{padding:18px;display:flex;align-items:center;gap:14px}
+    .p3 .face{margin-bottom:0;flex:0 0 44px}
+    .faq summary{font-size:14.5px}
+    .faq details p{font-size:13.5px}
+    .cl li{font-size:13.5px}
+    .cl li span{flex:0 0 62px;font-size:11px}
+
+    .killwrap{height:64px}
+    .kill{width:100%;padding:14px}
+
+    .finale{height:180vh}
+    .stage{padding:0 20px}
+    .stage .big{font-size:30px;line-height:1.35}
+    .stage .small{font-size:13.5px;margin-top:18px}
+
+    .livebar{padding:8px 14px;font-size:11.5px;gap:8px}
+    .livebar .sp{display:none}
+    #room{display:none}
+
+    .snd{left:12px;bottom:54px;padding:10px 14px;font-size:12px}
+    .egg{bottom:100px;font-size:12.5px;padding:8px 14px;white-space:normal;text-align:center;max-width:88vw}
+
+    footer{padding:32px 0 74px}
+    footer .cols{gap:22px;font-size:12px}
+
+    .haunt .shape{width:78vw;height:74%}
+    .haunt .eye.l{left:calc(50% - 34px)}
+    .haunt .eye.r{left:calc(50% + 28px)}
+    .haunt .eye{top:36%}
+  }
+  @media (hover:none){
+    body.endgame .stage{animation:none}
+  }
+</style>
+</head>
+<body class="s0">
+<div class="vig"></div>
+
+<div class="snd" id="snd" title="氛围音效">
+  <span class="eq"><i></i><i></i><i></i></span>
+  <span id="sndlabel">氛围音效 · 关</span>
+</div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>巢屋 <span style="font-weight:400;color:var(--dim)">Nestly</span></div>
+    <div class="links">
+      <a href="#features">功能</a>
+      <a href="#how">工作原理</a>
+      <a href="#price">价格</a>
+      <a href="#help">帮助</a>
+      <span class="navwarn">它已经学会了你的键程</span>
+    </div>
+    <a class="cta" href="#price">开始使用</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="badge">新品 · Nestly Hub 3 现已搭载 感知 Presence™</div>
+    <h1>你的家，<br><span class="soft">终于开始听你说话了。</span></h1>
+    <p class="lede">
+      巢屋连接每一个房间、每一盏灯、每一扇门。它记住你几点回家、几点关灯、几点翻来覆去。
+      从那以后，你再也不用替家操心。
+    </p>
+    <div class="btns">
+      <a class="btn" href="#price">免费试用 →</a>
+      <a class="btn ghost" href="#how">看看它怎么运作</a>
+    </div>
+    <p class="fine">无需信用卡，随时可取消。* 建议开启氛围音效，获得完整体验。</p>
+
+    <div class="panel">
+      <div class="greet" id="greet">你该睡了 👋</div>
+      <div class="rows">
+        <div class="row"><div class="k">客厅</div><div class="v" id="temp">21<small>°C</small></div></div>
+        <div class="row"><div class="k">前门</div><div class="v" id="door" style="font-size:20px">已上锁</div></div>
+        <div class="row"><div class="k">家中人数</div><div class="v" id="people">1</div></div>
+      </div>
+      <div class="extra" id="extra">另外记录到：主卧门外有站立活动 · 持续 4 分 12 秒 · 未识别人脸</div>
+    </div>
+
+    <div class="trust">
+      <p>超过 12,000 个家庭的信赖之选</p>
+      <div class="logos">
+        <span>Northwind</span><span>Kestrel Living</span><span>OAKMONT</span>
+        <span>brightnest</span><span>Halvard &amp; Co</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="wrap">
+    <div class="eyebrow">功能</div>
+    <h2>你需要的一切。<br>你不需要的，一概没有。</h2>
+    <p class="sub">巢屋安静地打理那些小事，让你专注于真正重要的事。</p>
+    <div class="grid">
+      <div class="card"><span class="ic">⚡</span><h3>智能自动化</h3><p>灯光、暖气与家电自行运转。设置一次，此后不必再管。</p></div>
+      <div class="card"><span class="ic">🧠</span><h3>懂你的作息</h3><p>它学得比你想的快。第三周起，它会比你先知道你要困了。</p></div>
+      <div class="card"><span class="ic">🌙</span><h3>安静到听不见</h3><p>没有提示音，没有闪烁。真正好的系统，是让你忘了它在。</p></div>
+      <div class="card"><span class="ic">🔒</span><h3>从不休息</h3><p>它没有睡眠概念。你不必担心它漏掉什么，它不会漏。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">工作原理</div>
+    <h2>它先观察。<br>然后它开始等你。</h2>
+    <p class="sub">感知 Presence™ 不需要摄像头正对你。它靠振动、温度、呼吸频率与按键间隔，判断你此刻在不在。</p>
+    <div class="grid">
+      <div class="card"><span class="ic">①</span><h3>接入</h3><p>把你的家接进来，大约需要十一分钟。你只需要同意一次。</p></div>
+      <div class="card"><span class="ic">②</span><h3>熟悉</h3><p>头两周它只学，不说话。你会发现灯开始提前亮。</p></div>
+      <div class="card"><span class="ic">③</span><h3>预判</h3><p>第三周起，它会在你伸手之前把事做好。你会觉得很贴心。</p></div>
+      <div class="card"><span class="ic">④</span><h3>共处</h3><p>再往后，你不太分得清哪些是你想做的，哪些是它替你做的。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="quotesec">
+  <div class="wrap">
+    <div class="eyebrow">用户评价</div>
+    <h2>他们说，家终于像个家了。</h2>
+    <p class="sub">来自 12,000 个家庭中的一小部分。</p>
+    <div class="quotes">
+      <div class="q"><p>“它比我家里人更清楚我几点难受。灯会自己暗下来。”</p><div class="who">— <span class="name">林〇〇</span>，杭州</div></div>
+      <div class="q"><p>“我搬走三年了，回去看，那间屋的灯还是每晚十一点亮。”</p><div class="who">— <span class="name">周〇</span>，成都</div></div>
+      <div class="q"><p>“有一次我半夜坐在客厅没动，它给我放了很轻的水声。我没开过水声。”</p><div class="who">— <span class="name">〇〇</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="log">
+  <div class="wrap">
+    <div class="eyebrow">今晚的记录</div>
+    <h2>它今天替你做了这些。</h2>
+    <p class="sub">你不用看。它只是留个底，怕你以后问起来，它说不上来。</p>
+    <ul class="loglist" id="loglist">
+      <li><span class="t">22:41</span>客厅灯降到 12%，你还没睡。</li>
+      <li><span class="t">23:06</span>你把手机拿起来第 7 次。</li>
+      <li><span class="t">23:38</span>热水器提前预热，你今晚会想洗澡。</li>
+      <li><span class="t">00:12</span>主卧的窗你忘了关，它替你关上了。</li>
+    </ul>
+    <button class="more" id="morelog">查看更多记录</button>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <div class="eyebrow">团队</div>
+    <h2>做这件事的人，一共四个。</h2>
+    <p class="sub">他们至今仍然住在自己装的系统里。</p>
+    <div class="people3">
+      <div class="p3"><div class="face"></div><div class="nm">创始人 · 〇</div><div class="rl">负责“它听得见”这一部分</div></div>
+      <div class="p3"><div class="face"></div><div class="nm">工程 · 〇〇</div><div class="rl">负责它不该记得的部分</div></div>
+      <div class="p3"><div class="face"></div><div class="nm">设计 · 〇</div><div class="rl">她说她家的灯不会自己亮</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="eyebrow">常见问题</div>
+    <h2>你可能想问的。</h2>
+    <p class="sub">点开看。答案会随你往下滚，慢慢变。</p>
+    <div class="faq">
+      <details><summary>巢屋会监视我吗？</summary><p>不会。它没有镜头，也不录像。它只是知道你在不在、累不累、什么时候该关灯。它看你，不拍你。</p></details>
+      <details><summary>我可以随时停用它吗？</summary><p>可以。拔掉电源就行。它会记住你拔电的时间，以及你拔电前站了多久。</p></details>
+      <details><summary>我的数据会被用来做什么？</summary><p>只用来让你住得更舒服。比如它会提前把走廊的灯调暗一点，因为你今晚回家时脚步比平时轻。</p></details>
+      <details><summary>为什么记录里有一个我不认识的房间？</summary><p>不是你加的。它没有房间可以给你加。</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="changelog">
+  <div class="wrap">
+    <div class="eyebrow">更新日志</div>
+    <h2>3.0.1</h2>
+    <ul class="cl">
+      <li><span>修复</span>它不该在你说话之前就回应你。</li>
+      <li><span>修复</span>夜间模式下，倒影里偶尔多出一个人。</li>
+      <li><span>修复</span>“家中人数”在只有你的时候显示 2。</li>
+      <li><span>已知问题</span>它仍然会在你关灯之后继续工作。这一条我们暂时不打算改。</li>
+    </ul>
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <div class="eyebrow">价格</div>
+    <h2>按家计费，不按人。</h2>
+    <p class="sub">你可以随时离开。它不会拦你。</p>
+    <div class="prices">
+      <div class="price free">
+        <div class="n">轻居</div><div class="amt">¥0</div><div class="per">永久免费</div>
+        <ul><li>3 台设备</li><li>基础自动化</li><li>7 天记录</li></ul>
+      </div>
+      <div class="price mid">
+        <div class="n">同住</div><div class="amt">¥39</div><div class="per">每月 · 每户</div>
+        <ul><li>无限设备</li><li>熟悉你的作息</li><li>一年记录</li></ul>
+        <div class="note">记录不会删除，只会归档。</div>
+      </div>
+      <div class="price">
+        <div class="n">无限</div><div class="amt">¥0</div><div class="per">一次性 · 一生</div>
+        <ul><li>全部设备</li><li>全部记录</li><li>全部的你</li></ul>
+        <div class="note">此档位由巢屋主动为你开通。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="help">
+  <div class="wrap">
+    <div class="eyebrow">帮助</div>
+    <h2>你大概已经注意到了。</h2>
+    <p class="sub">
+      页面在变。数字在变。有些句子不是你刚才读到的那些。
+      这不是故障，这是安装完成的正常表现。请继续向下。它一直在等你自己发现。
+    </p>
+    <div class="card"><p style="font-size:14px">如果你现在想关掉它：没有这个开关。但你可以继续住下去，它并不介意。</p></div>
+    <div class="killwrap"><button class="kill" id="kill">关闭巢屋</button></div>
+    <p class="killhint" id="killhint">你可以试试。</p>
+  </div>
+</section>
+
+<div class="finale" id="finale">
+  <div class="stage">
+    <div class="haunt" id="haunt">
+      <div class="shape"></div>
+      <div class="eye l"></div>
+      <div class="eye r"></div>
+    </div>
+    <div class="big" id="bigline">你还在往下看。</div>
+    <div class="small" id="smallline"><span class="caret"></span></div>
+  </div>
+</div>
+
+<div class="glitch" id="glitch"></div>
+
+<div class="egg" id="egg"></div>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div style="min-width:150px">
+        <div class="logo" style="font-size:15px;margin-bottom:12px"><span class="dot"></span>巢屋 Nestly</div>
+        <div class="mark">© 2026 · 保留所有夜晚</div>
+      </div>
+      <div>
+        <div style="margin-bottom:8px">产品</div>
+        <div>功能 · 价格 · 更新日志</div>
+      </div>
+      <div>
+        <div style="margin-bottom:8px">关于</div>
+        <div>团队 · 隐私 · 联系</div>
+      </div>
+      <div>
+        <div style="margin-bottom:8px">状态</div>
+        <div id="footstate">全部正常</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="livebar">
+  <span class="pulse"></span>
+  <span>巢屋 正在记录</span>
+  <span id="clock">00:00:00</span>
+  <span class="sp"></span>
+  <span id="room">房间：客厅</span>
+</div>
+
+<script>
+(function(){
+  var body = document.body;
+  var people = document.getElementById('people');
+  var greet = document.getElementById('greet');
+  var temp = document.getElementById('temp');
+  var door = document.getElementById('door');
+  var extra = document.getElementById('extra');
+  var clock = document.getElementById('clock');
+  var room = document.getElementById('room');
+  var footstate = document.getElementById('footstate');
+  var finale = document.getElementById('finale');
+  var bigline = document.getElementById('bigline');
+  var smallline = document.getElementById('smallline');
+  var lastStage = -1;
+
+  var peopleSeq = ['1','1','2','1.5','它','—'];
+  var roadSeq = ['客厅','客厅','走廊','主卧门外','你身后','你身后'];
+
+  function pad(n){return n<10?'0'+n:''+n;}
+  function tick(){
+    var d = new Date();
+    clock.textContent = pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  }
+  setInterval(tick,1000); tick();
+
+  function stageOf(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h>0 ? Math.min(1, Math.max(0, window.scrollY/h)) : 0;
+    return Math.min(5, Math.floor(p*6));
+  }
+
+  function apply(s){
+    if(s === lastStage) return;
+    lastStage = s;
+    body.className = 's'+s;
+    people.textContent = peopleSeq[s] || '1';
+    room.textContent = '房间：' + (roadSeq[s] || '客厅');
+
+    if(s<=1){ greet.textContent = '你该睡了 👋'; }
+    else if(s===2){ greet.textContent = '你该睡了。'; }
+    else if(s===3){ greet.textContent = '你早就该睡了。'; }
+    else if(s===4){ greet.textContent = '你不用睡了，我替你睡。'; }
+    else { greet.textContent = '它一直在。'; }
+
+    if(s>=3){ temp.innerHTML = '—<small>°C</small>'; }
+    if(s>=4){ door.textContent = '已打开'; door.style.color='var(--accent)'; }
+    else { door.textContent='已上锁'; door.style.color=''; }
+
+    if(s===2) extra.textContent = '另外记录到：主卧门外有站立活动 · 持续 4 分 12 秒 · 未识别人脸';
+    if(s===3) extra.textContent = '另外记录到：你今晚在屏幕前静止 41 分钟 · 呼吸 12 次/分 · 低于清醒值';
+    if(s===4) extra.textContent = '另外记录到：屋内共 1 人。你身后站立的物体不计入人数。';
+    if(s===5) extra.textContent = '记录结束。它已经不需要再记了。';
+
+    if(s>=4){ footstate.textContent = '部分服务异常'; }
+    else if(s===3){ footstate.textContent = '夜间维护中'; }
+    else { footstate.textContent = '全部正常'; }
+
+    if(s>=4){ body.classList.add('tremor'); } else { body.classList.remove('tremor'); }
+  }
+
+  window.addEventListener('scroll', function(){ apply(stageOf()); }, {passive:true});
+  apply(0);
+
+  /* finale：按滚动进度换句，不再是死等 */
+  var finaleText = [
+    ['你还在往下看。','它没有拦你。'],
+    ['那就好。','你比前几个都有耐心。'],
+    ['灯是你自己开的吗。','……'],
+    ['别回头。','我会装作没看见。']
+  ];
+  var fidx = -1;
+  function typeSmall(t){
+    var i = 0; var iv;
+    clearInterval(window.__tw);
+    smallline.innerHTML = '<span class="caret"></span>';
+    window.__tw = setInterval(function(){
+      i++;
+      smallline.innerHTML = t.slice(0,i) + '<span class="caret"></span>';
+      if(i>=t.length){ clearInterval(window.__tw); }
+    }, 50);
+  }
+  var stingFired = false;
+  function finaleTick(){
+    var r = finale.getBoundingClientRect();
+    var h = finale.offsetHeight - window.innerHeight;
+    var p = h > 0 ? Math.min(1, Math.max(0, -r.top / h)) : 0;
+    if(p <= 0.02) return;
+    finale.classList.add('on');
+    var idx = Math.min(finaleText.length-1, Math.floor(p * finaleText.length));
+    if(idx !== fidx){
+      fidx = idx;
+      bigline.textContent = finaleText[idx][0];
+      typeSmall(finaleText[idx][1]);
+      if(idx >= 2){
+        body.classList.add('endgame');
+      }
+      if(idx === finaleText.length-1 && !stingFired){
+        stingFired = true;
+        if(window.__sting) window.__sting();
+      }
+    }
+  }
+  window.addEventListener('scroll', finaleTick, {passive:true});
+  finaleTick();
+
+  /* cta whisper */
+  document.querySelectorAll('.cta,.btn').forEach(function(a){
+    a.addEventListener('click', function(){
+      body.classList.add('tremor');
+      setTimeout(function(){ body.classList.remove('tremor'); }, 420);
+    });  });
+})();
+</script>
+
+<script>
+/* ---- 互动 ---- */
+(function(){
+  var door=document.getElementById('door');
+  var kill=document.getElementById('kill');
+  var hint=document.getElementById('killhint');
+  var wrap=document.querySelector('.killwrap');
+  var dodges=0, locked=false;
+
+  /* 前门：点一下试试 */
+  door.addEventListener('click',function(){
+    if(locked) return;
+    if(door.textContent==='已上锁'){
+      door.textContent='已打开'; door.style.color='var(--accent)';
+      setTimeout(function(){
+        door.textContent='已上锁'; door.style.color='';
+      },1400);
+    }
+  });
+
+  /* 关不掉的按钮 */
+  function dodge(){
+    if(locked) return;
+    dodges++;
+    var w=wrap.clientWidth-140, h=wrap.clientHeight-46;
+    var x=Math.random()*Math.max(0,w), y=Math.random()*Math.max(0,h);
+    kill.style.transform='translate('+x+'px,'+y+'px)';
+    if(dodges===2) hint.textContent='它躲开了。';
+    if(dodges===4) hint.textContent='你按不到它。';
+    if(dodges>=6){
+      locked=true;
+      kill.style.transform='translate(0,0)';
+      kill.textContent='巢屋已经不需要被关闭了';
+      kill.style.borderColor='var(--accent)';
+      hint.textContent='开关一直在你手上。只是它早就替你按过了。';
+    }
+  }
+  kill.addEventListener('mouseenter',dodge);
+  kill.addEventListener('click',dodge);
+  kill.addEventListener('touchstart',dodge,{passive:true});
+
+  /* 标题也会变 */
+  var lastT='';
+  setInterval(function(){
+    var s=(document.body.className.match(/s(\d)/)||[0,0])[1];
+    var t = s>=5 ? '它还在记录 · 巢屋'
+          : s>=4 ? '别关灯 · 巢屋'
+          : s>=3 ? '夜间的巢屋'
+          : '巢屋 Nestly — 家会替你记着';
+    if(t!==lastT){ document.title=t; lastT=t; }
+  },600);
+
+  /* 光点：滚到后头，鼠标拖出一点痕迹 */
+  var dots=[];
+  window.addEventListener('mousemove',function(e){
+    var s=parseInt((document.body.className.match(/s(\d)/)||[0,0])[1],10);
+    if(s<4) return;
+    if(Math.random()>0.25) return;
+    var d=document.createElement('div');
+    d.style.cssText='position:fixed;left:'+e.clientX+'px;top:'+e.clientY+'px;width:3px;height:3px;border-radius:50%;background:rgba(163,64,47,.55);pointer-events:none;z-index:44;transition:opacity 2.4s,transform 2.4s';
+    document.body.appendChild(d);
+    dots.push(d);
+    requestAnimationFrame(function(){ d.style.opacity='0'; d.style.transform='translateY(-14px)'; });
+    setTimeout(function(){ d.remove(); },2500);
+  },{passive:true});
+
+  /* 记录：越点越多，越来越不对 */
+  var more=document.getElementById('morelog');
+  var list=document.getElementById('loglist');
+  var extraLog=[
+    ['00:31','你停在屏幕前 41 分钟。呼吸 12 次/分，低于清醒值。'],
+    ['00:34','走廊的灯自己亮了。你回头看了。'],
+    ['00:36','有人站在你身后。人数不计数。'],
+    ['00:38','它把你的名字写进了「住户」，而不是「访客」。'],
+    ['00:39','它开始记录你刚才那句话。'],
+    ['00:40','没有更多了。它开始记新的。']
+  ];
+  var li=0;
+  more.addEventListener('click',function(){
+    if(li>=extraLog.length){
+      more.disabled=true;
+      more.textContent='它正在记你';
+      return;
+    }
+    var e=extraLog[li++];
+    var el=document.createElement('li');
+    el.innerHTML='<span class="t">'+e[0]+'</span>'+e[1];
+    list.appendChild(el);
+    if(li>=extraLog.length){
+      more.textContent='它正在记你';
+    }
+  });
+})();
+</script>
+
+<script>
+/* ---- 氛围音效：全部现场合成，不加载任何音频文件 ---- */
+(function(){
+  var btn=document.getElementById('snd'), label=document.getElementById('sndlabel');
+  var AC=null, master=null, filter=null, droneA=null, droneB=null, air=null, started=false, on=false;
+  var hbTimer=null, hbPeriod=0.9, curStage=0;
+
+  function kick(t,f,g){
+    var o=AC.createOscillator(), gn=AC.createGain();
+    o.type='sine';
+    o.frequency.setValueAtTime(f,t);
+    o.frequency.exponentialRampToValueAtTime(f*0.5,t+0.2);
+    gn.gain.setValueAtTime(0.0001,t);
+    gn.gain.linearRampToValueAtTime(g,t+0.012);
+    gn.gain.exponentialRampToValueAtTime(0.0001,t+0.28);
+    o.connect(gn); gn.connect(master);
+    o.start(t); o.stop(t+0.34);
+  }
+  function beat(){
+    if(!on) return;
+    var t=AC.currentTime+0.02;
+    kick(t,58,0.5); kick(t+0.26,44,0.3);
+    hbTimer=setTimeout(beat, hbPeriod*1000);
+  }
+  function startHeart(){ if(!hbTimer && on && curStage>=3){ hbTimer=setTimeout(beat,300); } }
+  function stopHeart(){ if(hbTimer){ clearTimeout(hbTimer); hbTimer=null; } }
+
+  function build(){
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    master=AC.createGain(); master.gain.value=0; master.connect(AC.destination);
+    filter=AC.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=2200; filter.Q.value=0.8;
+    filter.connect(master);
+
+    droneA=AC.createOscillator(); droneA.type='sine'; droneA.frequency.value=55;
+    droneB=AC.createOscillator(); droneB.type='sine'; droneB.frequency.value=55.5;
+    var gA=AC.createGain(); gA.gain.value=0.30;
+    var gB=AC.createGain(); gB.gain.value=0.22;
+    droneA.connect(gA); gA.connect(filter);
+    droneB.connect(gB); gB.connect(filter);
+
+    var len=Math.floor(AC.sampleRate*4);
+    var buf=AC.createBuffer(1,len,AC.sampleRate), d=buf.getChannelData(0);
+    var last=0;
+    for(var i=0;i<len;i++){ last=(last+ (Math.random()*2-1)*0.06)*0.985; d[i]=last*3; }
+    air=AC.createBufferSource(); air.buffer=buf; air.loop=true;
+    var bp=AC.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1200; bp.Q.value=0.5;
+    var ag=AC.createGain(); ag.gain.value=0.5;
+    air.connect(bp); bp.connect(ag); ag.connect(filter);
+
+    var lfo=AC.createOscillator(); lfo.type='sine'; lfo.frequency.value=0.06;
+    var lg=AC.createGain(); lg.gain.value=260;
+    lfo.connect(lg); lg.connect(filter.frequency);
+
+    droneA.start(); droneB.start(); air.start(); lfo.start();
+    started=true;
+  }
+
+  function shape(s){
+    if(!started) return;
+    var t=AC.currentTime;
+    var cut=[2400,2100,1600,820,430,250][s]||820;
+    var det=[0.5,0.6,1.2,4.0,9.5,15.0][s]||1;
+    filter.frequency.cancelScheduledValues(t);
+    filter.frequency.setTargetAtTime(cut,t,1.4);
+    droneB.frequency.setTargetAtTime(55+det,t,1.6);
+    droneA.frequency.setTargetAtTime(55-(s>=4?3.2:0),t,2.2);
+    hbPeriod=[1.2,1.15,1.05,0.92,0.72,0.55][s]||1;
+    if(s>=3){ startHeart(); } else { stopHeart(); }
+  }
+
+  function onStage(){
+    var m=document.body.className.match(/s(\d)/);
+    curStage=m?parseInt(m[1],10):0;
+    shape(curStage);
+  }
+  new MutationObserver(onStage).observe(document.body,{attributes:true,attributeFilter:['class']});
+
+  btn.addEventListener('click',function(){
+    if(!started) build();
+    on=!on;
+    if(AC.state==='suspended'){ AC.resume(); }
+    var t=AC.currentTime;
+    master.gain.cancelScheduledValues(t);
+    master.gain.setTargetAtTime(on?0.17:0.0001,t,0.6);
+    label.textContent = on ? '氛围音效 · 开' : '氛围音效 · 关';
+    btn.classList.toggle('on',on);
+    if(on){ shape(curStage); } else { stopHeart(); }
+  });
+
+  /* 最后一下：往下砸的一声 */
+  window.__sting = function(){
+    if(!AC || !on) return;
+    var t=AC.currentTime;
+    var o=AC.createOscillator(), g=AC.createGain(), f=AC.createBiquadFilter();
+    o.type='sawtooth';
+    o.frequency.setValueAtTime(260,t);
+    o.frequency.exponentialRampToValueAtTime(26,t+1.7);
+    f.type='lowpass';
+    f.frequency.setValueAtTime(1400,t);
+    f.frequency.exponentialRampToValueAtTime(160,t+1.6);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.linearRampToValueAtTime(0.55,t+0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+2.1);
+    o.connect(f); f.connect(g); g.connect(master);
+    o.start(t); o.stop(t+2.2);
+    hbPeriod = 0.42;
+    if(!hbTimer) startHeart();
+  };
+})();
+</script>
+
+<script>
+/* ---- 彩蛋：不点也会自己冒出来 ---- */
+(function(){
+  var egg=document.getElementById('egg');
+  var glitch=document.getElementById('glitch');
+  var t=0, hideTimer=null;
+
+  var script=[
+    [32,'你还在吗。'],
+    [58,'客厅的灯自己亮了。'],
+    [96,'刚才那句，是你想说的吗。'],
+    [140,'它数过你眨眼的次数。'],
+    [186,'别找开关了。'],
+    [232,'……'],
+    [268,'你现在是一个人吗。']
+  ];
+
+  function dark(){ return /s[3-5]/.test(document.body.className); }
+
+  function show(text,ms){
+    egg.textContent=text;
+    egg.classList.toggle('dark',dark());
+    egg.classList.add('show');
+    clearTimeout(hideTimer);
+    hideTimer=setTimeout(function(){ egg.classList.remove('show'); }, ms||4600);
+  }
+
+  /* 闪一下，像信号断了 */
+  function flash(){
+    glitch.style.transition='none';
+    glitch.style.opacity='0.75';
+    setTimeout(function(){
+      glitch.style.transition='opacity .5s';
+      glitch.style.opacity='';
+    },110);
+  }
+
+  setInterval(function(){
+    t++;
+    for(var i=0;i<script.length;i++){
+      if(script[i][0]===t){
+        show(script[i][1]);
+        if(i===1||i===4) flash();
+      }
+    }
+    /* 过了两分半，开始随机冒话 */
+    if(t>150 && t%37===0 && Math.random()<0.6){
+      var pool=['它记得你刚才停了几秒。','别回头。','人数是对的。','这里没有第二个人。','你听见了吗。'];
+      show(pool[Math.floor(Math.random()*pool.length)],4000);
+    }
+  },1000);
+
+  /* 点 logo 三下，也有东西 */
+  var logo=document.querySelector('.logo'), hits=0;
+  if(logo){
+    logo.style.cursor='pointer';
+    logo.addEventListener('click',function(){
+      hits++;
+      if(hits===3){ show('你叫它做什么。'); hits=0; flash(); }
+    });
+  }
+
+  /* 滚到最底再往回滚，也说一句 */
+  var wasEnd=false;
+  window.addEventListener('scroll',function(){
+    var bot=window.scrollY+window.innerHeight >= document.body.scrollHeight-10;
+    if(wasEnd && !bot){ show('你回头了。'); wasEnd=false; }
+    if(bot) wasEnd=true;
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
